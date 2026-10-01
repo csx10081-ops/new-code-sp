@@ -19,7 +19,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # Set the project name
-set(CMAKE_PROJECT_NAME cboard)
+set(CMAKE_PROJECT_NAME t2)
 
 # Enable compile command to ease indexing with e.g. clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
@@ -45,23 +45,32 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
-    applications/plotter_task.cpp
     applications/buzzer_task.cpp
     applications/led_task.cpp
-    sp_middleware/io/plotter/plotter.cpp
-    sp_middleware/io/buzzer/buzzer.cpp
+    applications/imu_task.cpp
+    applications/plotter_task.cpp
+    applications/uart_task.cpp
+    applications/control_task.cpp
+    
 
-    applications/can_task.cpp # <- 添加这一行
-    sp_middleware/io/can/can.cpp # <- 添加这一行
-    sp_middleware/motor/rm_motor/rm_motor.cpp # <- 添加这一行
+
+    
+
     sp_middleware/io/buzzer/buzzer.cpp
     sp_middleware/io/led/led.cpp 
     sp_middleware/io/dbus/dbus.cpp
+    sp_middleware/io/plotter/plotter.cpp
+    sp_middleware/motor/rm_motor/rm_motor.cpp
+    sp_middleware/io/can/can.cpp
+    sp_middleware/io/bmi088/bmi088.cpp
+    sp_middleware/tools/mahony/mahony.cpp
+    sp_middleware/tools/gimbal/gimbal.cpp
     sp_middleware/tools/pid/pid.cpp 
     sp_middleware/tools/math_tools/math_tools.cpp
+    sp_middleware/tools/low_pass_filter/low_pass_filter.cpp
+    sp_middleware/tools/mecanum/mecanum.cpp
 
-) 
-
+   )
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths

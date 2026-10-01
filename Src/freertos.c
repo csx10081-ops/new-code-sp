@@ -49,7 +49,11 @@
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 osThreadId PlotterTaskHandle;
-osThreadId CanTaskHandle;
+osThreadId ControlTaskHandle;
+osThreadId imuTaskHandle;
+osThreadId BuzzerTaskHandle;
+osThreadId LedTaskHandle;
+osThreadId UartTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -58,7 +62,11 @@ osThreadId CanTaskHandle;
 
 void StartDefaultTask(void const * argument);
 extern void plotter_task(void const * argument);
-extern void can_task(void const * argument);
+extern void control_task(void const * argument);
+extern void imu_task(void const * argument);
+extern void buzzer_task(void const * argument);
+extern void led_task(void const * argument);
+extern void uart_task(void const * argument);
 
 extern void MX_USB_DEVICE_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -114,9 +122,25 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(PlotterTask, plotter_task, osPriorityLow, 0, 128);
   PlotterTaskHandle = osThreadCreate(osThread(PlotterTask), NULL);
 
-  /* definition and creation of CanTask */
-  osThreadDef(CanTask, can_task, osPriorityLow, 0, 256);
-  CanTaskHandle = osThreadCreate(osThread(CanTask), NULL);
+  /* definition and creation of ControlTask */
+  osThreadDef(ControlTask, control_task, osPriorityHigh, 0, 256);
+  ControlTaskHandle = osThreadCreate(osThread(ControlTask), NULL);
+
+  /* definition and creation of imuTask */
+  osThreadDef(imuTask, imu_task, osPriorityLow, 0, 128);
+  imuTaskHandle = osThreadCreate(osThread(imuTask), NULL);
+
+  /* definition and creation of BuzzerTask */
+  osThreadDef(BuzzerTask, buzzer_task, osPriorityLow, 0, 128);
+  BuzzerTaskHandle = osThreadCreate(osThread(BuzzerTask), NULL);
+
+  /* definition and creation of LedTask */
+  osThreadDef(LedTask, led_task, osPriorityLow, 0, 128);
+  LedTaskHandle = osThreadCreate(osThread(LedTask), NULL);
+
+  /* definition and creation of UartTask */
+  osThreadDef(UartTask, uart_task, osPriorityIdle, 0, 128);
+  UartTaskHandle = osThreadCreate(osThread(UartTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */

@@ -5,7 +5,7 @@
 sp::CAN can1(&hcan1);
 sp::RM_Motor motor6020(1, sp::RM_Motors::GM6020);  // 一个电机ID为1, 电流控制模式的6020
 
-extern "C" void can_task()
+extern "C" void control_task()
 {
   osDelay(500);
   can1.config();
